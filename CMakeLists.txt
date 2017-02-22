@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.1)
-project(dn)
+project(dn CXX)
 
 
 enable_language(CXX)
@@ -14,8 +14,13 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set(dn-build_tests ON CACHE BOOL "Whether to build tests")
 
 # Enable C++14
-set (CMAKE_CXX_STANDARD 14)
+set (CMAKE_CXX_STANDARD 11)
 
+
+#if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fdiagnostics-color")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ferror-limit=0")
+#endif()
 
 ##################################
 # Includes
@@ -34,7 +39,6 @@ include_directories(
 ##################################
 
 set(SOURCES
-  src/main.cpp
   include/tensor/tensor.hpp
   include/utils/alloc.hpp
   include/utils/error.hpp
@@ -43,13 +47,49 @@ set(SOURCES
   include/utils/mpl.hpp
   include/utils/utils.hpp
   include/utils/range.hpp
-  include/tensor/zeros.hpp include/tensor/randn.hpp include/tensor/base.hpp include/utils/nocopy.hpp include/linalg/dot.hpp include/compute/compute.hpp include/compute/graph.hpp include/layers/layers.hpp include/layers/convolution.hpp include/layers/tanh.hpp include/layers/exp.hpp include/layers/log.hpp include/linalg/reduce.hpp include/layers/relu.hpp include/tensor/ones.hpp include/linalg/linalg.hpp include/layers/mulc.hpp include/layers/linear.hpp include/layers/log_sigmoid.hpp include/layers/sqrt.hpp include/layers/square.hpp include/layers/sigmoid.hpp include/layer/base.hpp include/layer/flatten.hpp test/tensor/tensor_test.cpp include/compute/variable.hpp include/tensor/rand.hpp include/compute/weights.hpp include/optimizer/rmsprop.hpp include/optimizer/sgd.hpp include/layer/info.hpp include/layer/kind.hpp include/layer/clamp.hpp include/tensor/shape.hpp)
+  include/tensor/zeros.hpp
+  include/tensor/randn.hpp
+  include/tensor/base.hpp
+  include/utils/nocopy.hpp
+  include/linalg/dot.hpp
+  include/compute/compute.hpp
+  include/compute/graph.hpp
+  include/layer/layer.hpp
+  include/layer/convolution.hpp
+  include/layer/tanh.hpp
+  include/layer/exp.hpp
+  include/layer/log.hpp
+  include/linalg/reduce.hpp
+  include/layer/relu.hpp
+  include/tensor/ones.hpp
+  include/linalg/linalg.hpp
+  include/layer/mulc.hpp
+  include/layer/linear.hpp
+  include/layer/log_sigmoid.hpp
+  include/layer/sqrt.hpp
+  include/layer/square.hpp
+  include/layer/sigmoid.hpp
+  include/layer/base.hpp
+  include/layer/flatten.hpp
+  test/tensor/shape_test.cpp
+  include/compute/variable.hpp
+  include/tensor/rand.hpp
+  include/compute/weights.hpp
+  include/optimizer/rmsprop.hpp
+  include/optimizer/sgd.hpp
+  include/layer/info.hpp
+  include/layer/kind.hpp
+  include/layer/clamp.hpp
+  include/tensor/shape.hpp
+  )
 
 ##################################
 # Build
 ##################################
 
-add_executable(dn ${SOURCES})
+add_library(dn STATIC ${SOURCES})
+add_executable(dnx src/main.cpp)
+target_link_libraries(dnx dn)
 
 ##################################
 # Tests
@@ -58,10 +98,9 @@ add_executable(dn ${SOURCES})
 if (dn-build_tests)
     enable_testing()
 
-    add_executable(dn-test test/dn_test.cpp test/test_main.cpp)
+    add_executable(dn-test test/test_main.cpp test/tensor/shape_test.cpp)
     target_include_directories(dn-test PUBLIC ${Catch_INCLUDE_DIR})
     target_link_libraries(dn-test dn)
-
 
     add_test(dn_test dn-test)
 endif()

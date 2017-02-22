@@ -9,14 +9,14 @@
 
 namespace dn {
 
-template <typename Ty, tensor_dim_t... Dims>
-struct zeros final : private base_tensor<Ty, Dims...> {
-  zeros() {
+template <typename Ty, index_type... Dims>
+struct zeros : public base_tensor<Ty, Dims...> {
+  zeros() : base_tensor<Ty, Dims...>() {
     std::fill(_data, _data + flattened_length, static_cast<Ty>(0));
   }
 };
 
-template <typename Ty, tensor_dim_t... Dims>
+template <typename Ty, index_type... Dims>
 zeros<Ty, Dims...> zeros_like() {
   return zeros<Ty, Dims...>();
 }

@@ -6,7 +6,7 @@
 #define DN_UTILS_ALLOC_HPP
 
 namespace dn {
-    namespace memory
+namespace memory {}
 }
 
 #endif // DN_UTILS_ALLOC_HPP

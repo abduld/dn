@@ -214,51 +214,51 @@
 #else
 #define DEVICE_CALLABLE
 #endif
-
+namespace dn {
 namespace detail {
 
-template <typename T>
-struct range_iter_base : std::iterator<std::input_iterator_tag, T> {
-  DEVICE_CALLABLE
-  range_iter_base(T current) : current(current) {
-  }
+  template <typename T>
+  struct range_iter_base : std::iterator<std::input_iterator_tag, T> {
+    DEVICE_CALLABLE
+    range_iter_base(T current) : current(current) {
+    }
 
-  DEVICE_CALLABLE
-  T operator*() const {
-    return current;
-  }
+    DEVICE_CALLABLE
+    T operator*() const {
+      return current;
+    }
 
-  DEVICE_CALLABLE
-  T const* operator->() const {
-    return &current;
-  }
+    DEVICE_CALLABLE
+    T const *operator->() const {
+      return &current;
+    }
 
-  DEVICE_CALLABLE
-  range_iter_base& operator++() {
-    ++current;
-    return *this;
-  }
+    DEVICE_CALLABLE
+    range_iter_base &operator++() {
+      ++current;
+      return *this;
+    }
 
-  DEVICE_CALLABLE
-  range_iter_base operator++(int) {
-    auto copy = *this;
-    ++*this;
-    return copy;
-  }
+    DEVICE_CALLABLE
+    range_iter_base operator++(int) {
+      auto copy = *this;
+      ++*this;
+      return copy;
+    }
 
-  DEVICE_CALLABLE
-  bool operator==(range_iter_base const& other) const {
-    return current == other.current;
-  }
+    DEVICE_CALLABLE
+    bool operator==(range_iter_base const &other) const {
+      return current == other.current;
+    }
 
-  DEVICE_CALLABLE
-  bool operator!=(range_iter_base const& other) const {
-    return not(*this == other);
-  }
+    DEVICE_CALLABLE
+    bool operator!=(range_iter_base const &other) const {
+      return not(*this == other);
+    }
 
-protected:
-  T current;
-};
+  protected:
+    T current;
+  };
 
 } // namespace detail
 
@@ -280,7 +280,7 @@ struct range_proxy {
       using detail::range_iter_base<T>::current;
 
       DEVICE_CALLABLE
-      iter& operator++() {
+      iter &operator++() {
         current += step;
         return *this;
       }
@@ -294,12 +294,12 @@ struct range_proxy {
 
       // Loses commutativity. Iterator-based ranges are simply broken. :-(
       DEVICE_CALLABLE
-      bool operator==(iter const& other) const {
+      bool operator==(iter const &other) const {
         return step > 0 ? current >= other.current : current < other.current;
       }
 
       DEVICE_CALLABLE
-      bool operator!=(iter const& other) const {
+      bool operator!=(iter const &other) const {
         return not(*this == other);
       }
 
@@ -359,12 +359,12 @@ struct infinite_range_proxy {
     }
 
     DEVICE_CALLABLE
-    bool operator==(iter const&) const {
+    bool operator==(iter const &) const {
       return false;
     }
 
     DEVICE_CALLABLE
-    bool operator!=(iter const&) const {
+    bool operator!=(iter const &) const {
       return true;
     }
   };
@@ -379,7 +379,7 @@ struct infinite_range_proxy {
       using detail::range_iter_base<T>::current;
 
       DEVICE_CALLABLE
-      iter& operator++() {
+      iter &operator++() {
         current += step;
         return *this;
       }
@@ -392,12 +392,12 @@ struct infinite_range_proxy {
       }
 
       DEVICE_CALLABLE
-      bool operator==(iter const&) const {
+      bool operator==(iter const &) const {
         return false;
       }
 
       DEVICE_CALLABLE
-      bool operator!=(iter const&) const {
+      bool operator!=(iter const &) const {
         return true;
       }
 
@@ -451,6 +451,13 @@ DEVICE_CALLABLE range_proxy<T> range(T begin, T end) {
   return {begin, end};
 }
 
+template <typename T1, typename T2>
+DEVICE_CALLABLE range_proxy<typename std::common_type<T1, T2>::type>
+    range(T1 begin, T2 end) {
+  using common_type = typename std::common_type<T1, T2>::type;
+  return {static_cast<common_type>(begin), static_cast<common_type>(end)};
+}
+
 template <typename T>
 DEVICE_CALLABLE infinite_range_proxy<T> range(T begin) {
   return {begin};
@@ -458,24 +465,24 @@ DEVICE_CALLABLE infinite_range_proxy<T> range(T begin) {
 
 namespace traits {
 
-template <typename C>
-struct has_size {
-  template <typename T>
-  static constexpr auto check(T*) ->
-      typename std::is_integral<decltype(std::declval<T const>().size())>::type;
+  template <typename C>
+  struct has_size {
+    template <typename T>
+    static constexpr auto check(T *) -> typename std::is_integral<
+        decltype(std::declval<T const>().size())>::type;
 
-  template <typename>
-  static constexpr auto check(...) -> std::false_type;
+    template <typename>
+    static constexpr auto check(...) -> std::false_type;
 
-  using type                  = decltype(check<C>(0));
-  static constexpr bool value = type::value;
-};
+    using type                  = decltype(check<C>(0));
+    static constexpr bool value = type::value;
+  };
 
 } // namespace traits
 
 template <typename C,
           typename = typename std::enable_if<traits::has_size<C>::value>>
-DEVICE_CALLABLE auto indices(C const& cont)
+DEVICE_CALLABLE auto indices(C const &cont)
     -> range_proxy<decltype(cont.size())> {
   return {0, cont.size()};
 }
@@ -487,8 +494,9 @@ DEVICE_CALLABLE range_proxy<std::size_t> indices(T (&)[N]) {
 
 template <typename T>
 range_proxy<typename std::initializer_list<T>::size_type>
-    DEVICE_CALLABLE indices(std::initializer_list<T>&& cont) {
+    DEVICE_CALLABLE indices(std::initializer_list<T> &&cont) {
   return {0, cont.size()};
+}
 }
 
 #endif // ndef DN_UTILS_RANGE_HPP

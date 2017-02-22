@@ -13,13 +13,13 @@ namespace mpl {
   struct mul;
 
   template <>
-  struct mul {
+  struct mul<> {
     using value_type                  = size_t;
     static constexpr value_type value = 1;
   };
 
   template <size_t N, size_t... Ns>
-  struct mul {
+  struct mul<N, Ns...> {
     using value_type                  = size_t;
     static constexpr value_type value = N * mul<Ns...>::value;
   };
@@ -28,16 +28,19 @@ namespace mpl {
   struct add;
 
   template <>
-  struct add {
+  struct add<> {
     using value_type                  = size_t;
     static constexpr value_type value = 0;
   };
 
   template <size_t N, size_t... Ns>
-  struct add {
+  struct add<N, Ns...> {
     using value_type                  = size_t;
     static constexpr value_type value = N + add<Ns...>::value;
   };
+
+  template <bool cond, class T = void>
+  using enable_if_t = typename std::enable_if<cond, T>::type;
 }
 }
 

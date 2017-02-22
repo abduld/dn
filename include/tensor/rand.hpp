@@ -11,15 +11,15 @@
 
 namespace dn {
 
-template <typename Ty, tensor_dim_t... Dims>
-struct randi final : private base_tensor<Ty, Dims...> {
+template <typename Ty, index_type... Dims>
+struct randi final : public base_tensor<Ty, Dims...> {
   Ty a{0};
   Ty b{0};
 
-  randi(Ty a = 0, Ty b = 1) : a(a), b(b) {
+  randi(Ty a = 0, Ty b = 1) : base_tensor<Ty, Dims...>(), a(a), b(b) {
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<> dis(mu, stddev);
+    std::uniform_int_distribution<> dis(a, b);
 
     static_assert(std::is_integral<Ty>::value, "input type must be integral");
 
@@ -29,15 +29,15 @@ struct randi final : private base_tensor<Ty, Dims...> {
   }
 };
 
-template <typename Ty, tensor_dim_t... Dims>
-struct randf final : private base_tensor<Ty, Dims...> {
+template <typename Ty, index_type... Dims>
+struct randf final : public base_tensor<Ty, Dims...> {
   Ty a{0};
   Ty b{0};
 
-  randf(Ty a = 0, Ty b = 1) : a(a), b(b) {
+  randf(Ty a = 0, Ty b = 1) : base_tensor<Ty, Dims...>(), a(a), b(b) {
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<> dis(mu, stddev);
+    std::uniform_int_distribution<> dis(a, b);
 
     static_assert(std::is_floating_point<Ty>::value,
                   "input type must be integral");
