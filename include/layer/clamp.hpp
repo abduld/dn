@@ -5,4 +5,4 @@
 #ifndef DN_CLAMP_HPP
 #define DN_CLAMP_HPP
 
-#endif //DN_CLAMP_HPP
+#endif // DN_CLAMP_HPP

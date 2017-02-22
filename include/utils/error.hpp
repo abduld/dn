@@ -6,9 +6,8 @@
 #define DN_UTILS_ERROR_HPP
 
 namespace dn {
-    template <typename T>
-    static bool check_success(const T &err);
-
+template <typename T>
+static bool check_success(const T &err);
 }
 
-#endif //DN_UTILS_ERROR_HPP
+#endif // DN_UTILS_ERROR_HPP

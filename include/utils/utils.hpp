@@ -9,8 +9,8 @@
 #include "compat.hpp"
 #include "error.hpp"
 #include "mpl.hpp"
-#include "timer.hpp"
-#include "range.hpp"
 #include "nocopy.hpp"
+#include "range.hpp"
+#include "timer.hpp"
 
-#endif //DN_UTILS_HPP
+#endif // DN_UTILS_HPP

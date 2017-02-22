@@ -8,8 +8,8 @@
 #include "layer/kind.hpp"
 
 namespace dn {
-    template <layer::kind e>
-    struct layer_info;
+template <layer::kind e>
+struct layer_info;
 }
 
-#endif //DN_LAYER_INFO_HPP
+#endif // DN_LAYER_INFO_HPP

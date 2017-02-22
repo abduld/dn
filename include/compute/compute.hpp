@@ -5,4 +5,4 @@
 #ifndef DN_COMPUTE_HPP
 #define DN_COMPUTE_HPP
 
-#endif //DN_COMPUTE_HPP
+#endif // DN_COMPUTE_HPP

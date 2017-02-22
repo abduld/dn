@@ -7,6 +7,4 @@
 
 #include "layer/base.hpp"
 
-
-
-#endif //DN_LAYER_EXP_HPP
+#endif // DN_LAYER_EXP_HPP

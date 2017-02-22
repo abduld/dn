@@ -8,9 +8,9 @@
 #include <chrono>
 
 namespace dn {
-    static std::chrono::time_point<std::chrono::high_resolution_clock> now() {
-      return std::chrono::high_resolution_clock::now();
-    }
+static std::chrono::time_point<std::chrono::high_resolution_clock> now() {
+  return std::chrono::high_resolution_clock::now();
+}
 }
 
-#endif //DN_UTILS_TIMER_HPP
+#endif // DN_UTILS_TIMER_HPP

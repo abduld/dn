@@ -5,8 +5,6 @@
 #ifndef DN_LINALG_DOT_HPP
 #define DN_LINALG_DOT_HPP
 
-namespace dn {
+namespace dn {}
 
-}
-
-#endif //DN_LINALG_DOT_HPP
+#endif // DN_LINALG_DOT_HPP

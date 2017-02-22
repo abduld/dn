@@ -7,9 +7,9 @@
 
 #include "base.hpp"
 
-#include "randn.hpp"
-#include "rand.hpp"
-#include "zeros.hpp"
 #include "ones.hpp"
+#include "rand.hpp"
+#include "randn.hpp"
+#include "zeros.hpp"
 
-#endif //DN_TENSOR_HPP
+#endif // DN_TENSOR_HPP

@@ -17,4 +17,4 @@
 #define ALWAYS_INLINE __forceinline
 #endif // defined(__GNUC__)
 
-#endif //DN_UTILS_COMPAT_HPP
+#endif // DN_UTILS_COMPAT_HPP
