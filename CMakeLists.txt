@@ -98,7 +98,7 @@ target_link_libraries(dnx dn)
 if (dn-build_tests)
     enable_testing()
 
-    add_executable(dn-test test/test_main.cpp test/tensor/shape_test.cpp)
+    add_executable(dn-test test/test_main.cpp test/tensor/shape_test.cpp test/tensor/tensor_test.cpp)
     target_include_directories(dn-test PUBLIC ${Catch_INCLUDE_DIR})
     target_link_libraries(dn-test dn)
 

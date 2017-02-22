@@ -13,10 +13,10 @@ namespace dn {
 template <typename Ty, index_type... Dims>
 struct base_tensor : public non_copyable {
   using value_type                       = Ty;
-  using shape                            = shape<Dims...>;
-  static constexpr auto rank             = shape::rank;
-  static constexpr auto dims             = shape::dims;
-  static constexpr auto flattened_length = shape::flattened_length;
+  static constexpr shape<Dims...> shape{};
+  static constexpr auto rank             = shape.rank;
+  static constexpr auto dims             = shape.dims;
+  static constexpr auto flattened_length = shape.flattened_length;
   static constexpr size_t byte_count =
       sizeof(flattened_length) * sizeof(value_type);
 
@@ -49,88 +49,88 @@ struct base_tensor : public non_copyable {
   }
 
   template <typename T>
-  void operator+=(const T& s) {
+  mpl::enable_if_t<std::is_arithmetic<T>::value, void> operator+=(const T& s) {
     for (const auto ii : range(0, flattened_length)) {
       _data[ii] += s;
     }
   }
 
   template <typename T>
-  void operator*=(const T& s) {
+  mpl::enable_if_t<std::is_arithmetic<T>::value, void> operator*=(const T& s) {
     for (const auto ii : range(0, flattened_length)) {
       _data[ii] *= s;
     }
   }
-
-  template <typename T, int len>
-  mpl::enable_if_t<rank == 1, void> operator+=(const base_tensor<T, len>& vec) {
-    const auto vecData = vec.getData();
-    for (const auto ii : range(0, flattened_length)) {
-      _data[ii] += vecData[ii];
-    }
-  }
-
-  template <typename T, int len>
-  mpl::enable_if_t<rank == 1, void> operator*=(const base_tensor<T, len>& vec) {
-    const auto vecData = vec.getData();
-    for (const auto ii : range(0, flattened_length)) {
-      _data[ii] *= vecData[ii];
-    }
-  }
-
-  template <typename T, int len>
-  mpl::enable_if_t<rank == 1, void> operator-=(const base_tensor<T, len>& vec) {
-    const auto vecData = vec.getData();
-    for (const auto ii : range(0, flattened_length)) {
-      _data[ii] -= vecData[ii];
-    }
-  }
-
-  template <typename T, int x1, int x2>
-  mpl::enable_if_t<rank == 2, void>
-      operator+=(const base_tensor<T, x1, x2>& vec) {
-    const auto vecData     = vec.getData();
-    const size_t inner_dim = dims[rank - 1];
-    const size_t outer_dim = flattened_length / inner_dim;
-    for (const auto ii : range(0, outer_dim)) {
-      for (const auto jj : range(0, inner_dim)) {
-        _data[ii * inner_dim + jj] += vecData[jj];
-      }
-    }
-  }
-
-  template <typename T, int x1, int x2>
-  mpl::enable_if_t<rank == 2, void>
-      operator*=(const base_tensor<T, x1, x2>& vec) {
-    const auto vecData     = vec.getData();
-    const size_t inner_dim = dims[rank - 1];
-    const size_t outer_dim = flattened_length / inner_dim;
-    for (const auto ii : range(0, outer_dim)) {
-      for (const auto jj : range(0, inner_dim)) {
-        _data[ii * inner_dim + jj] *= vecData[jj];
-      }
-    }
-  }
-
-  template <typename T, int x1, int x2>
-  mpl::enable_if_t<rank == 2, void>
-      operator-=(const base_tensor<T, x1, x2>& vec) {
-    const auto vecData     = vec.getData();
-    const size_t inner_dim = dims[rank - 1];
-    const size_t outer_dim = flattened_length / inner_dim;
-    for (const auto ii : range(0, outer_dim)) {
-      for (const auto jj : range(0, inner_dim)) {
-        _data[ii * inner_dim + jj] -= vecData[jj];
-      }
-    }
-  }
-
-  template <typename OpF>
-  void op(const OpF&& F) {
-    for (const auto ii : range(0, flattened_length)) {
-      _data[ii] = std::forward<>(_data[ii]);
-    }
-  }
+//
+//  template <typename T, int len>
+//  mpl::enable_if_t<rank == 1, void> operator+=(const base_tensor<T, len>& vec) {
+//    const auto vecData = vec.getData();
+//    for (const auto ii : range(0, flattened_length)) {
+//      _data[ii] += vecData[ii];
+//    }
+//  }
+//
+//  template <typename T, int len>
+//  mpl::enable_if_t<rank == 1, void> operator*=(const base_tensor<T, len>& vec) {
+//    const auto vecData = vec.getData();
+//    for (const auto ii : range(0, flattened_length)) {
+//      _data[ii] *= vecData[ii];
+//    }
+//  }
+//
+//  template <typename T, int len>
+//  mpl::enable_if_t<rank == 1, void> operator-=(const base_tensor<T, len>& vec) {
+//    const auto vecData = vec.getData();
+//    for (const auto ii : range(0, flattened_length)) {
+//      _data[ii] -= vecData[ii];
+//    }
+//  }
+//
+//  template <typename T, int x1, int x2>
+//  mpl::enable_if_t<rank == 2, void>
+//      operator+=(const base_tensor<T, x1, x2>& vec) {
+//    const auto vecData     = vec.getData();
+//    const size_t inner_dim = dims[rank - 1];
+//    const size_t outer_dim = flattened_length / inner_dim;
+//    for (const auto ii : range(0, outer_dim)) {
+//      for (const auto jj : range(0, inner_dim)) {
+//        _data[ii * inner_dim + jj] += vecData[jj];
+//      }
+//    }
+//  }
+//
+//  template <typename T, int x1, int x2>
+//  mpl::enable_if_t<rank == 2, void>
+//      operator*=(const base_tensor<T, x1, x2>& vec) {
+//    const auto vecData     = vec.getData();
+//    const size_t inner_dim = dims[rank - 1];
+//    const size_t outer_dim = flattened_length / inner_dim;
+//    for (const auto ii : range(0, outer_dim)) {
+//      for (const auto jj : range(0, inner_dim)) {
+//        _data[ii * inner_dim + jj] *= vecData[jj];
+//      }
+//    }
+//  }
+//
+//  template <typename T, int x1, int x2>
+//  mpl::enable_if_t<rank == 2, void>
+//      operator-=(const base_tensor<T, x1, x2>& vec) {
+//    const auto vecData     = vec.getData();
+//    const size_t inner_dim = dims[rank - 1];
+//    const size_t outer_dim = flattened_length / inner_dim;
+//    for (const auto ii : range(0, outer_dim)) {
+//      for (const auto jj : range(0, inner_dim)) {
+//        _data[ii * inner_dim + jj] -= vecData[jj];
+//      }
+//    }
+//  }
+//
+//  template <typename OpF>
+//  void op(const OpF&& F) {
+//    for (const auto ii : range(0, flattened_length)) {
+//      _data[ii] = std::forward<>(_data[ii]);
+//    }
+//  }
 
 protected:
   Ty* _data{nullptr};

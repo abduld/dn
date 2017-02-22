@@ -10,7 +10,7 @@
 
 
 
-TEST_CASE("Creating tensor should create propper shape", "[tensor_create_shape]")
+TEST_CASE("Creating shape should work", "[create_shape]")
 {
   spdlog::set_level(spdlog::level::debug);
  using shape = dn::shape<4, 2>;
