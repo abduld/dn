@@ -2,8 +2,8 @@
 // Created by Abdul Dakkak on 2/21/17.
 //
 
-#ifndef DN_BASE_HPP
-#define DN_BASE_HPP
+#ifndef DN_TENSOR_BASE_HPP
+#define DN_TENSOR_BASE_HPP
 
 #include <array>
 #include "utils/utils.hpp"
@@ -11,7 +11,7 @@
 namespace dn {
     using tensor_dim_t = int;
     template <typename Ty, tensor_dim_t ...Dims>
-    struct tensor_base : public non_copyable {
+    struct base_tensor : public non_copyable {
         using value_type = Ty;
         static constexpr tensor_dim_t rank = sizeof...(Dims);
         static constexpr auto dims = std::array<tensor_dim_t, rank>(Dims...);
@@ -33,7 +33,15 @@ namespace dn {
           return dims[rank - 3];
         }
 
-        const Ty getData() const {
+        const decltype(dims) shape() const {
+          return dims;
+        }
+
+        Ty * data() const noexcept {
+          return _data;
+        }
+
+        const Ty * data() const noexcept {
           return _data;
         }
 
@@ -69,6 +77,16 @@ namespace dn {
           }
         }
 
+        template <typename T, int len>
+        std::enable_if_t<rank == 1, void>
+        operator-=(const tensor_base<T, len> & vec) {
+          const auto vecData = vec.getData();
+          for (const auto ii : range(0, flattened_length)) {
+            _data[ii] -= vecData[ii];
+          }
+        }
+
+
 
         template <typename T, int x1, int x2>
         std::enable_if_t<rank == 2, void>
@@ -96,6 +114,19 @@ namespace dn {
           }
         }
 
+        template <typename T, int x1, int x2>
+        std::enable_if_t<rank == 2, void>
+        operator-=(const tensor_base<T, x1, x2> & vec) {
+          const auto vecData = vec.getData();
+          const size_t inner_dim = dims[rank - 1];
+          const size_t outer_dim = flattened_length / inner_dim;
+          for (const auto ii : range(0, outer_dim)) {
+            for (const auto jj : range(0, inner_dim)) {
+              _data[ii * inner_dim + jj] -= vecData[jj];
+            }
+          }
+        }
+
         template <typename OpF>
         void op(const OpF && F) {
           for (const auto ii : range(0, flattened_length)) {
@@ -108,4 +139,4 @@ namespace dn {
     };
 };
 
-#endif //DN_BASE_HPP
+#endif //DN_TENSOR_BASE_HPP

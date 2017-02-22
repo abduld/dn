@@ -202,8 +202,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef UTIL_LANG_RANGE_HPP
-#define UTIL_LANG_RANGE_HPP
+#ifndef DN_UTILS_RANGE_HPP
+#define DN_UTILS_RANGE_HPP
 
 #include <iterator>
 #include <type_traits>
@@ -491,4 +491,4 @@ DEVICE_CALLABLE indices(std::initializer_list<T>&& cont) {
   return {0, cont.size()};
 }
 
-#endif // ndef UTIL_LANG_RANGE_HPP
+#endif // ndef DN_UTILS_RANGE_HPP

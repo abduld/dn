@@ -2,17 +2,17 @@
 // Created by Abdul Dakkak on 2/21/17.
 //
 
-#ifndef DN_ZEROS_HPP
-#define DN_ZEROS_HPP
+#ifndef DN_TENSOR_ZEROS_HPP
+#define DN_TENSOR_ZEROS_HPP
 
 #include "tensor/base.hpp"
 
 namespace dn {
 
     template <typename Ty, tensor_dim_t ...Dims>
-    struct zeros : private tensor_base<Ty, Dims...> {
+    struct zeros final : private base_tensor<Ty, Dims...> {
       zeros() {
-        memset(_data, 0, byte_count);
+        std::fill(_data, _data + flattened_length, static_cast<Ty>(0));
       }
     };
 
@@ -23,4 +23,4 @@ namespace dn {
     }
 }
 
-#endif //DN_ZEROS_HPP
+#endif //DN_TENSOR_ZEROS_HPP

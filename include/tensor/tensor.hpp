@@ -8,6 +8,7 @@
 #include "base.hpp"
 
 #include "randn.hpp"
+#include "rand.hpp"
 #include "zeros.hpp"
 #include "ones.hpp"
 

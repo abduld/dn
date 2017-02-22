@@ -2,8 +2,8 @@
 // Created by Abdul Dakkak on 2/21/17.
 //
 
-#ifndef DN_TIMER_HPP
-#define DN_TIMER_HPP
+#ifndef DN_UTILS_TIMER_HPP
+#define DN_UTILS_TIMER_HPP
 
 #include <chrono>
 
@@ -13,4 +13,4 @@ namespace dn {
     }
 }
 
-#endif //DN_TIMER_HPP
+#endif //DN_UTILS_TIMER_HPP

@@ -2,8 +2,8 @@
 // Created by Abdul Dakkak on 2/21/17.
 //
 
-#ifndef DN_MPL_HPP
-#define DN_MPL_HPP
+#ifndef DN_UTILS_MPL_HPP
+#define DN_UTILS_MPL_HPP
 
 #include <type_traits>
 
@@ -41,4 +41,4 @@ namespace dn {
     }
 }
 
-#endif //DN_MPL_HPP
+#endif //DN_UTILS_MPL_HPP

@@ -43,7 +43,7 @@ set(SOURCES
   include/utils/mpl.hpp
   include/utils/utils.hpp
   include/utils/range.hpp
-  include/tensor/zeros.hpp include/tensor/randn.hpp include/tensor/base.hpp include/utils/nocopy.hpp include/linalg/dot.hpp include/compute/compute.hpp include/compute/graph.hpp include/layers/layers.hpp include/layers/convolution.hpp include/layers/tanh.hpp include/layers/exp.hpp include/layers/log.hpp include/linalg/reduce.hpp include/layers/relu.hpp include/tensor/ones.hpp include/linalg/linalg.hpp include/layers/mulc.hpp include/layers/linear.hpp include/layers/log_sigmoid.hpp include/layers/sqrt.hpp include/layers/square.hpp include/layers/sigmoid.hpp)
+  include/tensor/zeros.hpp include/tensor/randn.hpp include/tensor/base.hpp include/utils/nocopy.hpp include/linalg/dot.hpp include/compute/compute.hpp include/compute/graph.hpp include/layers/layers.hpp include/layers/convolution.hpp include/layers/tanh.hpp include/layers/exp.hpp include/layers/log.hpp include/linalg/reduce.hpp include/layers/relu.hpp include/tensor/ones.hpp include/linalg/linalg.hpp include/layers/mulc.hpp include/layers/linear.hpp include/layers/log_sigmoid.hpp include/layers/sqrt.hpp include/layers/square.hpp include/layers/sigmoid.hpp include/layer/base.hpp include/layer/flatten.hpp test/tensor/tensor_test.cpp include/compute/variable.hpp include/tensor/rand.hpp include/compute/weights.hpp include/optimizer/rmsprop.hpp include/optimizer/sgd.hpp include/layer/info.hpp include/layer/kind.hpp include/layer/clamp.hpp include/tensor/shape.hpp)
 
 ##################################
 # Build

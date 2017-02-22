@@ -2,8 +2,8 @@
 // Created by Abdul Dakkak on 2/21/17.
 //
 
-#ifndef DN_COMPAT_HPP
-#define DN_COMPAT_HPP
+#ifndef DN_UTILS_COMPAT_HPP
+#define DN_UTILS_COMPAT_HPP
 
 #ifdef __GNUC__
 #define UNUSED __attribute__((unused))
@@ -17,4 +17,4 @@
 #define ALWAYS_INLINE __forceinline
 #endif // defined(__GNUC__)
 
-#endif //DN_COMPAT_HPP
+#endif //DN_UTILS_COMPAT_HPP
