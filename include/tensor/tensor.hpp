@@ -10,7 +10,7 @@
 //#include "ones.hpp"
 //#include "rand.hpp"
 //#include "randn.hpp"
-//#include "zeros.hpp"
+#include "zeros.hpp"
 
 namespace dn {
 template <typename Ty, index_type... Dims>

@@ -39,8 +39,38 @@ namespace mpl {
     static constexpr value_type value = N + add<Ns...>::value;
   };
 
+  template <typename T, typename U, typename... Ts>
+  struct is_all_same
+      : std::integral_constant<
+            bool, is_all_same<T, U>::value & is_all_same<U, Ts...>::value> {};
+
+  template <typename T>
+  struct is_all_same<T, T> : std::true_type {};
+
+  template <typename T, typename U>
+  struct is_all_same<T, U> : std::false_type {};
+
   template <bool cond, class T = void>
   using enable_if_t = typename std::enable_if<cond, T>::type;
+
+  template <typename... xs>
+  struct list;
+
+  template <typename x, typename xs>
+  struct cons;
+
+  template <typename x, typename... xs>
+  struct cons<x, list<xs...>> {
+    using type = list<x, xs...>;
+  };
+
+  template <typename xs>
+  struct rest;
+
+  template <typename x, typename... xs>
+  struct rest<list<x, xs...>> {
+    using type = list<xs...>;
+  };
 }
 }
 

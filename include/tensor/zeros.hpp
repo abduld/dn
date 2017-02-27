@@ -12,7 +12,8 @@ namespace dn {
 template <typename Ty, index_type... Dims>
 struct zeros : public base_tensor<Ty, Dims...> {
   zeros() : base_tensor<Ty, Dims...>() {
-    std::fill(_data, _data + flattened_length, static_cast<Ty>(0));
+    std::fill(this->_data, this->_data + this->flattened_length,
+              static_cast<Ty>(0));
   }
 };
 

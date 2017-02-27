@@ -9,7 +9,7 @@
 
 
 
-TEST_CASE("Creating tensor should create propper shape", "[tensor_create_shape]")
+TEST_CASE("Creating tensor should create proper shape", "[tensor_create_shape]")
 {
   spdlog::set_level(spdlog::level::debug);
   dn::tensor<double, 4, 2> t{};
